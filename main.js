@@ -21,7 +21,7 @@ COSA FARE:
 const gridContainer = document.querySelector(".grid-container");
 const play = document.querySelector("#btn");
 const difficolta = document.querySelector("#difficolta");
-console.log(clicked());
+play.addEventListener("click", gridGenerator);
 
 // Function che genera le bombe
 function bombGenerator() {
@@ -37,14 +37,15 @@ function bombGenerator() {
   return bombs;
 }
 
-console.log(bombGenerator());
+//console.log(bombGenerator());
 
-function gridGenerator(rows, columns) {
+function gridGenerator() {
+  rows = 10;
+  columns = 10;
   const cellsNumbers = rows * columns;
 
   console.log(cellsNumbers);
   gridContainer.style.width = `calc(var(--cell-size) * ${rows})`;
-  play.addEventListener("click", clicked);
 
   // creo ogni cella
   for (let i = 0; i < cellsNumbers; i++) {
@@ -56,30 +57,40 @@ function gridGenerator(rows, columns) {
     cell.innerHTML = `<span>${i + 1}</span>`;
 
     // evento click
-    const onCellClick = function () {
-      console.log("Hai cliccato il numero", this.innerText);
-      const numero = parseInt(this.innerText);
+    // const onCellClick = function () {
+    //   console.log("Hai cliccato il numero", this.innerText);
+    //   const numero = parseInt(this.innerText);
 
-      //   if (numero % 2 === 0) {
-      //     this.classList.add("even");
-      //   } else {
-      //     this.classList.add("odd");
-      //   }
-    };
-    cell.addEventListener("click", onCellClick);
+    //   //   if (numero % 2 === 0) {
+    //   //     this.classList.add("even");
+    //   //   } else {
+    //   //     this.classList.add("odd");
+    //   //   }
+    //   if (bombs.includes(numero)) {
+    //     // this.classList.add("bomb");
+    //     // this.innerHTML = `<span>${numero}</span>`;
+    //     alert("hai perso");
+    //   } else {
+    //     // this.classList.add("safe");
+    //     // this.innerHTML = `<span>${numero}</span>`;
+    //   }
+    // };
+    // cell.addEventListener("click", onCellClick);
 
     // appendo la cella al contenitore della griglia
     gridContainer.appendChild(cell);
   }
-  return cellsNumbers;
 }
 
 function clicked() {
-  if (difficolta.value === "easy") {
-    return gridGenerator(10, 10);
-  } else if (difficolta.value === "medium") {
-    return gridGenerator(9, 9);
-  } else if (difficolta.value === "hard") {
-    return gridGenerator(7, 7);
-  }
+  console.log(difficolta.value, "difficolta");
+  gridGenerator(10, 10);
+  //   if (difficolta.value === "easy") {
+  //     gridGenerator(10, 10);
+  //   } else if (difficolta.value === "medium") {
+  //     gridGenerator(9, 9);
+  //   } else if (difficolta.value === "hard") {
+  //     gridGenerator(7, 7);
+  //   }
+  console.log(difficolta.value, "difficolta");
 }
