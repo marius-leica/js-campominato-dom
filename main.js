@@ -21,7 +21,7 @@ COSA FARE:
 const gridContainer = document.querySelector(".grid-container");
 const play = document.querySelector("#btn");
 const difficolta = document.querySelector("#difficolta");
-play.addEventListener("click", gridGenerator);
+play.addEventListener("click", clicked);
 
 // Function che genera le bombe
 function bombGenerator() {
@@ -37,16 +37,14 @@ function bombGenerator() {
   return bombs;
 }
 
-//console.log(bombGenerator());
+console.log(bombGenerator());
 
-function gridGenerator() {
-  rows = 10;
-  columns = 10;
+function gridGenerator(rows, columns) {
   const cellsNumbers = rows * columns;
 
   console.log(cellsNumbers);
   gridContainer.style.width = `calc(var(--cell-size) * ${rows})`;
-
+  gridContainer.innerHTML = "";
   // creo ogni cella
   for (let i = 0; i < cellsNumbers; i++) {
     // creo div che rappresenta la cella singola
@@ -83,14 +81,12 @@ function gridGenerator() {
 }
 
 function clicked() {
-  console.log(difficolta.value, "difficolta");
-  gridGenerator(10, 10);
-  //   if (difficolta.value === "easy") {
-  //     gridGenerator(10, 10);
-  //   } else if (difficolta.value === "medium") {
-  //     gridGenerator(9, 9);
-  //   } else if (difficolta.value === "hard") {
-  //     gridGenerator(7, 7);
-  //   }
+  if (difficolta.value === "easy") {
+    gridGenerator(10, 10);
+  } else if (difficolta.value === "medium") {
+    gridGenerator(9, 9);
+  } else if (difficolta.value === "hard") {
+    gridGenerator(7, 7);
+  }
   console.log(difficolta.value, "difficolta");
 }
