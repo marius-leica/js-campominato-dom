@@ -21,6 +21,8 @@ COSA FARE:
 const play = document.querySelector("#btn");
 const difficolta = document.querySelector("#difficolta");
 play.addEventListener("click", clicked);
+let score = 0;
+let gameOver = false;
 
 // Function che genera le bombe
 function bombGenerator(max) {
@@ -58,7 +60,12 @@ function gridGenerator(rows, columns) {
 
     // evento click
     let onCellClick = function () {
-      if (this.classList.contains("bomb")) {
+      if (
+        this.classList.contains("bomb") ||
+        this.classList.contains("safe") ||
+        score == cellsNumbers - 16 ||
+        gameOver
+      ) {
         return;
       }
       const cellIndex = +this.dataset.indice;
@@ -66,14 +73,22 @@ function gridGenerator(rows, columns) {
 
       if (bombsList.includes(cellIndex)) {
         cell.classList.add("bomb");
+        gameOver = true;
 
-        alert("hai perso");
+        alert("Il tuo punteggio è: " + score);
       } else {
         cell.classList.add("safe");
+        score++;
+        console.log("Score:" + " " + score);
       }
     };
     cell.addEventListener("click", onCellClick);
-
+    if (gameOver === true && bombsList.includes(cellIndex)) {
+      {
+        cell.classList.add("bomb");
+      }
+      cell.removeEventListener("click", onCellClick);
+    }
     // appendo la cella al contenitore della griglia
   }
 }
