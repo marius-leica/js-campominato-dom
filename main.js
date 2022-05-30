@@ -18,29 +18,29 @@ COSA FARE:
 - creare una function che generi le celle con numeri in serie
 */
 
-const gridContainer = document.querySelector(".grid-container");
 const play = document.querySelector("#btn");
 const difficolta = document.querySelector("#difficolta");
 play.addEventListener("click", clicked);
 
 // Function che genera le bombe
-function bombGenerator() {
+function bombGenerator(max) {
   let bombs = [];
-  for (let i = 0; i < 16; i++) {
-    let bomba = Math.floor(Math.random() * 16);
-    if (bombs.includes(bomba)) {
-      i--;
-    } else {
-      bombs.push(bomba);
+  do {
+    let bomb = Math.floor(Math.random() * max + 1);
+    if (!bombs.includes(bomb)) {
+      bombs.push(bomb);
     }
-  }
+  } while (bombs.length < 16);
+
+  console.log(bombs);
   return bombs;
 }
 
-console.log(bombGenerator());
-
 function gridGenerator(rows, columns) {
   const cellsNumbers = rows * columns;
+
+  const bombsList = bombGenerator(cellsNumbers);
+  const gridContainer = document.querySelector(".grid-container");
 
   console.log(cellsNumbers);
   gridContainer.style.width = `calc(var(--cell-size) * ${rows})`;
@@ -53,40 +53,47 @@ function gridGenerator(rows, columns) {
     cell.classList.add("cell");
     // aggiungo il numero alla cella
     cell.innerHTML = `<span>${i + 1}</span>`;
+    gridContainer.appendChild(cell);
+    cell.dataset.indice = i + 1;
 
     // evento click
-    // const onCellClick = function () {
-    //   console.log("Hai cliccato il numero", this.innerText);
-    //   const numero = parseInt(this.innerText);
+    let onCellClick = function () {
+      if (this.classList.contains("bomb")) {
+        return;
+      }
+      const cellIndex = +this.dataset.indice;
+      console.log("Hai cliccato il numero", cellIndex);
 
-    //   //   if (numero % 2 === 0) {
-    //   //     this.classList.add("even");
-    //   //   } else {
-    //   //     this.classList.add("odd");
-    //   //   }
-    //   if (bombs.includes(numero)) {
-    //     // this.classList.add("bomb");
-    //     // this.innerHTML = `<span>${numero}</span>`;
-    //     alert("hai perso");
-    //   } else {
-    //     // this.classList.add("safe");
-    //     // this.innerHTML = `<span>${numero}</span>`;
-    //   }
-    // };
-    // cell.addEventListener("click", onCellClick);
+      if (bombsList.includes(cellIndex)) {
+        cell.classList.add("bomb");
+
+        alert("hai perso");
+      } else {
+        cell.classList.add("safe");
+      }
+    };
+    cell.addEventListener("click", onCellClick);
 
     // appendo la cella al contenitore della griglia
-    gridContainer.appendChild(cell);
   }
 }
 
 function clicked() {
   if (difficolta.value === "easy") {
     gridGenerator(10, 10);
+    // bombGenerator(100);
+    // console.log(bombs);
+    // return bombs;
   } else if (difficolta.value === "medium") {
     gridGenerator(9, 9);
+    // bombGenerator(81);
+    // console.log(bombs);
+    // return bombs;
   } else if (difficolta.value === "hard") {
     gridGenerator(7, 7);
+    // bombGenerator(49);
+    // console.log(bombs);
+    // return bombs;
   }
   console.log(difficolta.value, "difficolta");
 }

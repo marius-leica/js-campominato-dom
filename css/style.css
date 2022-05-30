@@ -29,3 +29,15 @@ main {
 .grid-container .cell.odd {
     background-color: #6175d1;
 }
+
+.cell.bomb {
+    background-color: #ff0000;
+}
+
+;
+
+.cell.safe {
+    background-color: lightblue;
+}
+
+;
